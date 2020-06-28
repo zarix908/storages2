@@ -150,7 +150,7 @@ func (folder *Folder) GetSubFolder(subFolderRelativePath string) storage.Folder 
 func (folder *Folder) ReadObject(objectRelativePath string) (io.ReadCloser, error) {
 	fmt.Println("read");
 	path := folder.client.Join(folder.path, objectRelativePath)
-	file, err := folder.client.Open(path)
+	file, err := folder.client.OpenFile(path)
 
 	if err != nil {
 		return nil, NewFolderError(err, "Fail open file '%s'", path)
@@ -164,7 +164,7 @@ func (folder *Folder) PutObject(name string, content io.Reader) error {
 	client := folder.client
 	path := client.Join(folder.path, name)
 
-	file, err := client.Create(path)
+	file, err := client.CreateFile(path)
 	if err != nil {
 		return NewFolderError(err, "Fail create file '%s'", path)
 	}
