@@ -6,12 +6,25 @@ import (
 	"github.com/wal-g/tracelog"
 	"golang.org/x/crypto/ssh"
 	"io"
+	"fmt"
 )
 
 type Folder struct {
 	client SftpClient
 	path string
 }
+
+const (
+	Port = "SSH_PORT"
+	Password = "SSH_PASSWORD"
+	Username = "SSH_USERNAME"
+)
+
+var SettingsList = []string{
+	Port,
+	Password,
+	Username,
+};
 
 func NewFolderError(err error, format string, args ...interface{}) storage.Error {
 	return storage.NewError(err, "SSH", format, args...)
@@ -24,10 +37,9 @@ func ConfigureFolder(prefix string, settings map[string]string) (storage.Folder,
 		return nil, err
 	}
 
-	// TODO parse from settings
-	user := "user"
-	pass := ""
-	port := ":22"
+	user := settings[Username]
+	pass := settings[Password]
+	port := settings[Port]
 
 	config := &ssh.ClientConfig{
 		User: user,
@@ -37,7 +49,7 @@ func ConfigureFolder(prefix string, settings map[string]string) (storage.Folder,
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 
-	address := host + port
+	address := fmt.Sprint(host, ":", port)
 	sshClient, err := ssh.Dial("tcp", address, config)
 	if err != nil {
 		return nil, NewFolderError(err, "Fail connect via ssh. Address: %s", address)
