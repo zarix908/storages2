@@ -127,7 +127,7 @@ func (folder *Folder) DeleteObjects(objectRelativePaths []string) error {
 }
 
 func (folder *Folder) Exists(objectRelativePath string) (bool, error)  {
-	path := folder.client.Join(objectRelativePath)
+	path := filepath.Join(folder.path, objectRelativePath)
 	_, err := folder.client.Stat(path)
 
 	if err != nil {
