@@ -164,9 +164,14 @@ func (folder *Folder) PutObject(name string, content io.Reader) error {
 	client := folder.client
 	path := client.Join(folder.path, name)
 
+	err := client.Mkdir(path)
+	if err != nil {
+		return NewFolderError(err, "Fail to create folder '%s'", path)
+	}
+
 	file, err := client.CreateFile(path)
 	if err != nil {
-		return NewFolderError(err, "Fail create file '%s'", path)
+		return NewFolderError(err, "Fail to create file '%s'", path)
 	}
 
 	_, err = io.Copy(file, content)
