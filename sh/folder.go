@@ -163,7 +163,7 @@ func (folder *Folder) PutObject(name string, content io.Reader) error {
 	fmt.Println("put");
 	client := folder.client
 
-	fmt.Println(folder.path)
+	fmt.Println(name)
 
 	err := client.Mkdir(folder.path)
 	if err != nil {
