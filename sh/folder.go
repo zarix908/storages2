@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/ssh"
 	"io"
 	"fmt"
+	"path/filepath"
 )
 
 type Folder struct {
@@ -163,7 +164,7 @@ func (folder *Folder) PutObject(name string, content io.Reader) error {
 	fmt.Println("put");
 	client := folder.client
 
-	fmt.Println(name)
+	fmt.Println(filepath.Base(name))
 
 	err := client.Mkdir(folder.path)
 	if err != nil {
