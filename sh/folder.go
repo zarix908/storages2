@@ -40,6 +40,9 @@ func ConfigureFolder(prefix string, settings map[string]string) (storage.Folder,
 	user := settings[Username]
 	pass := settings[Password]
 	port := settings[Port]
+	fmt.Println(user)
+	fmt.Println(port)
+	fmt.Println(host)
 
 	config := &ssh.ClientConfig{
 		User: user,
