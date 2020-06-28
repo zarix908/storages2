@@ -162,21 +162,21 @@ func (folder *Folder) ReadObject(objectRelativePath string) (io.ReadCloser, erro
 func (folder *Folder) PutObject(name string, content io.Reader) error {
 	fmt.Println("put");
 	client := folder.client
-	path := client.Join(folder.path, name)
 
-	err := client.Mkdir(path)
+	err := client.Mkdir(folder.path)
 	if err != nil {
-		return NewFolderError(err, "Fail to create folder '%s'", path)
+		return NewFolderError(err, "Fail to create folder '%s'", folder.path)
 	}
 
-	file, err := client.CreateFile(path)
+	filePath := client.Join(folder.path, name)
+	file, err := client.CreateFile(filePath)
 	if err != nil {
-		return NewFolderError(err, "Fail to create file '%s'", path)
+		return NewFolderError(err, "Fail to create file '%s'", filePath)
 	}
 
 	_, err = io.Copy(file, content)
 	if err != nil {
-		return NewFolderError(err, "Fail write content to file '%s'", path)
+		return NewFolderError(err, "Fail write content to file '%s'", filePath)
 	}
 
 	return nil
