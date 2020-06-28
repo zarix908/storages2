@@ -31,7 +31,7 @@ func NewFolderError(err error, format string, args ...interface{}) storage.Error
 }
 
 func ConfigureFolder(prefix string, settings map[string]string) (storage.Folder, error) {
-	host, path, err := storage.GetPathFromPrefix(prefix)
+	host, path, err := storage.ParsePrefixAsURL(prefix)
 
 	if err != nil {
 		return nil, err
