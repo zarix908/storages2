@@ -163,6 +163,8 @@ func (folder *Folder) PutObject(name string, content io.Reader) error {
 	fmt.Println("put");
 	client := folder.client
 
+	fmt.Println(folder.path)
+
 	err := client.Mkdir(folder.path)
 	if err != nil {
 		return NewFolderError(err, "Fail to create folder '%s'", folder.path)
