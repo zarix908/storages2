@@ -110,7 +110,7 @@ func (folder *Folder) ListFolder() (objects []storage.Object, subFolders []stora
 }
 
 func (folder *Folder) DeleteObjects(objectRelativePaths []string) error {
-	fmt.Println("delete")
+	fmt.Println("delete")  
 	client := folder.client
 
 	for _, relativePath := range objectRelativePaths {
