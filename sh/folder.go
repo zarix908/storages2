@@ -40,9 +40,6 @@ func ConfigureFolder(prefix string, settings map[string]string) (storage.Folder,
 	user := settings[Username]
 	pass := settings[Password]
 	port := settings[Port]
-	fmt.Println(user)
-	fmt.Println(port)
-	fmt.Println(host)
 
 	config := &ssh.ClientConfig{
 		User: user,
@@ -77,10 +74,12 @@ func closeConnection(client io.Closer)  {
 }
 
 func (folder *Folder) GetPath() string {
+	fmt.Println("get")
 	return folder.path
 }
 
 func (folder *Folder) ListFolder() (objects []storage.Object, subFolders []storage.Folder, err error) {
+	fmt.Println("list")
 	client := folder.client
 	path := folder.path
 
@@ -111,6 +110,7 @@ func (folder *Folder) ListFolder() (objects []storage.Object, subFolders []stora
 }
 
 func (folder *Folder) DeleteObjects(objectRelativePaths []string) error {
+	fmt.Println("delete")
 	client := folder.client
 
 	for _, relativePath := range objectRelativePaths {
@@ -126,6 +126,7 @@ func (folder *Folder) DeleteObjects(objectRelativePaths []string) error {
 }
 
 func (folder *Folder) Exists(objectRelativePath string) (bool, error)  {
+	fmt.Println("exists")
 	path := folder.client.Join()
 	_, err := folder.client.Stat(path)
 
@@ -139,6 +140,7 @@ func (folder *Folder) Exists(objectRelativePath string) (bool, error)  {
 }
 
 func (folder *Folder) GetSubFolder(subFolderRelativePath string) storage.Folder {
+	fmt.Println("get sub")
 	return &Folder{
 		folder.client,
 		folder.client.Join(folder.path, subFolderRelativePath),
@@ -146,6 +148,7 @@ func (folder *Folder) GetSubFolder(subFolderRelativePath string) storage.Folder 
 }
 
 func (folder *Folder) ReadObject(objectRelativePath string) (io.ReadCloser, error) {
+	fmt.Println("read");
 	path := folder.client.Join(folder.path, objectRelativePath)
 	file, err := folder.client.Open(path)
 
@@ -157,6 +160,7 @@ func (folder *Folder) ReadObject(objectRelativePath string) (io.ReadCloser, erro
 }
 
 func (folder *Folder) PutObject(name string, content io.Reader) error {
+	fmt.Println("put");
 	client := folder.client
 	path := client.Join(folder.path, name)
 
