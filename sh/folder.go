@@ -75,12 +75,10 @@ func closeConnection(client io.Closer)  {
 }
 
 func (folder *Folder) GetPath() string {
-	fmt.Println("get")
 	return folder.path
 }
 
 func (folder *Folder) ListFolder() (objects []storage.Object, subFolders []storage.Folder, err error) {
-	fmt.Println("list")
 	client := folder.client
 	path := folder.path
 
@@ -111,7 +109,6 @@ func (folder *Folder) ListFolder() (objects []storage.Object, subFolders []stora
 }
 
 func (folder *Folder) DeleteObjects(objectRelativePaths []string) error { 
-	fmt.Println("delete")
 	client := folder.client
 
 	for _, relativePath := range objectRelativePaths {
